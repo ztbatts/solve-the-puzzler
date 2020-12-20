@@ -1,0 +1,19 @@
+https://www.npr.org/2020/12/20/948348016/sunday-puzzle-christmas-capitals
+
+Take the name BUENOS AIRES.
+
+Remove one letter.
+
+The remaining letters can be rearranged to name
+two things that many people wish for around this time of year.
+
+What are they?
+
+============================================================================
+
+STRATEGY:
+
+BUENOSAIRES (len = N = 11) -> remove 1 letter -> (N different ranges of size (N-1))
+-> get all different orderings -> (*= factorial(N-1))
+-> get all different partitions -> (*= (N-1))
+-> check if both halves of partition are in the dictionary -> (*= O(log(length(dictionary))))
