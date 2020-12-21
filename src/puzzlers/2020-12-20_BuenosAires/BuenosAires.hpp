@@ -11,48 +11,34 @@
 #include <algorithm>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/action/transform.hpp>
+#include <range/v3/action/unique.hpp>
 #include <range/v3/action/push_back.hpp>
 #include <range/v3/view/cycle.hpp>
 #include <range/v3/view/chunk.hpp>
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/for_each.hpp>
 #include <range/v3/view/common.hpp>
+#include <range/v3/view/remove_if.hpp>
 #include <range/v3/view/single.hpp>
+
 
 using namespace ranges;
 
 namespace buenos_aires {
 
+    std::vector<std::string> createDict(const std::string &pathToDict,const int minWordSize);
 
-    void createOrderings() {
+    class Dictionary {
+        const std::vector<std::string> dict;
 
-//    const std::string city = "BUENOSAIRES";
-        const std::string city = "ABCD";
-        const int N = city.size();
+    public:
+        Dictionary(const std::string &pathToDict, const int minWordSize);
 
-        auto cityRepeated = city | views::cycle; // inf cityRepeated ... ABCDABCDABCDABCD...
-        auto partialCities = cityRepeated | views::chunk(N - 1) | views::take(N); // ABC | DAB | CDA | BCD
+        bool isAWord(const std::string &s) const;
+    };
 
-        auto getPermutations = [](const std::string &str) // s is a range
-        {
-            std::vector<std::string> permutations{str};
-            auto s = str;
-            while (std::prev_permutation(s.begin(), s.end())) {
-                permutations.push_back(s);
-            }
-            s = str;
-            while (std::next_permutation(s.begin(), s.end())) {
-                permutations.push_back(s);
-            }
-            return permutations;
-        };
 
-        auto permutedPartialCities = partialCities | views::transform(getPermutations) | ranges::to<std::vector>;
-//        auto permutedPartialCities = partialCities | views::transform(getPermutations);
-        auto vec = permutedPartialCities | views::join | ranges::to<std::vector>;
-
-        std::cout << "hey!\n";
-    }
+    std::vector<std::string> createOrderings(const Dictionary &dict, const std::string &city);
 
 
 }
