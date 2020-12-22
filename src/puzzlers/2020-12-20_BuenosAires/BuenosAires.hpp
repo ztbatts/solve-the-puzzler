@@ -23,7 +23,7 @@ namespace buenos_aires {
         bool isAWord(const std::string &s) const;
     };
 
-    std::vector <std::string> createOrderings(const Dictionary &dict, const std::string &city);
+    std::vector <std::string> findCandidateSolutions(const Dictionary &dict, const std::string &city);
 
 }
 

@@ -37,7 +37,7 @@ std::vector <std::string> buenos_aires::createDict(const std::string &pathToDict
     return dict | views::remove_if([minWordSize](const std::string &s) { return s.size() < minWordSize; });;
 }
 
-std::vector <std::string> buenos_aires::createOrderings(const Dictionary &dict, const std::string &city) {
+std::vector <std::string> buenos_aires::findCandidateSolutions(const Dictionary &dict, const std::string &city) {
 
     const int N = city.size();
     // city = ABCD
@@ -100,7 +100,7 @@ int main() {
     std::cout << "BuenosAires Puzzle candidates: \n";
 
     //    const auto possibleAnswers = buenos_aires::createOrderings(dict, "asactr"); // test
-    const auto possibleAnswers = buenos_aires::createOrderings(dict, "buenosaires");
+    const auto possibleAnswers = buenos_aires::findCandidateSolutions(dict, "buenosaires");
 
     for (const auto &s : possibleAnswers) {
         std::cout << s << std::endl;
