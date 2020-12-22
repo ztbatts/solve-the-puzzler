@@ -1,11 +1,23 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.14)
+project(SolveThePuzzler LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
 
-project(SolveThePuzzler)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-set(CMAKE_CXX_STANDARD 20)
+# From https://github.com/conan-io/cmake-conan
+if (NOT EXISTS "${CMAKE_MODULE_PATH}/conan.cmake")
+    message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+    file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
+            "${CMAKE_BINARY_DIR}/conan.cmake"
+            TLS_VERIFY ON)
+else()
+    message(STATUS "Found conan.cmake locally")
+endif ()
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake) # Include Conan-generated file
-conan_basic_setup(TARGETS) # Introduce Conan-generated targets
-#conan_basic_setup()
+include(${CMAKE_MODULE_PATH}/conan.cmake)
+
+conan_cmake_run(CONANFILE conanfile.txt
+        BASIC_SETUP CMAKE_TARGETS
+        BUILD missing)
 
 add_subdirectory(src)

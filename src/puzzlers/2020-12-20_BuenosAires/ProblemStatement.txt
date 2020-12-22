@@ -1,5 +1,6 @@
 https://www.npr.org/2020/12/20/948348016/sunday-puzzle-christmas-capitals
 
+============================PROBLEM STATEMENT===================================
 Take the name BUENOS AIRES.
 
 Remove one letter.
@@ -9,11 +10,11 @@ two things that many people wish for around this time of year.
 
 What are they?
 
-============================================================================
+============================SCRATCH NOTES===================================
 
-STRATEGY:
+STRATEGY -- brute force search thru all letter combinations:
 
-BUENOSAIRES (len = N = 11) -> remove 1 letter -> (N different ranges of size (N-1))
+BUENOSAIRES (len = N = 11) -> remove 1 letter -> (combos = N different ranges of size (N-1))
 -> get all different orderings -> (*= factorial(N-1))
 -> get all different partitions -> (*= (N-1))
 -> check if both halves of partition are in the dictionary -> (*= O(log(length(dictionary))))
