@@ -5,39 +5,20 @@
 #include "BuenosAires.hpp"
 
 #include <iostream>
-#include <fstream>
 #include <algorithm>
 #include <map>
 
-#include <range/v3/view/filter.hpp>
-#include <range/v3/action/transform.hpp>
-#include <range/v3/action/unique.hpp>
-#include <range/v3/action/push_back.hpp>
 #include <range/v3/view/cycle.hpp>
 #include <range/v3/view/chunk.hpp>
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/for_each.hpp>
 #include <range/v3/view/common.hpp>
-#include <range/v3/view/remove_if.hpp>
 #include <range/v3/view/single.hpp>
 
 using namespace ranges;
 
-bool buenos_aires::Dictionary::isAWord(const std::string &s) const {
-    return std::binary_search(dict.begin(), dict.end(), s);
-}
 
-buenos_aires::Dictionary::Dictionary(const std::string &pathToDict, const int minWordSize) :
-        dict{createDict(pathToDict, minWordSize)}, minWordSize_{minWordSize} {}
-
-std::vector <std::string> buenos_aires::createDict(const std::string &pathToDict, const int minWordSize) {
-    std::ifstream reader{pathToDict};
-    std::istream_iterator <std::string> iter{reader}, eof;
-    std::vector <std::string> dict{iter, eof};
-    return dict | views::remove_if([minWordSize](const std::string &s) { return s.size() < minWordSize; });;
-}
-
-std::vector <std::string> buenos_aires::findCandidateSolutions(const Dictionary &dict, const std::string &city) {
+std::vector<std::string> buenos_aires::findCandidateSolutions(const util::Dictionary &dict, const std::string &city) {
 
     const int N = city.size();
     // city = ABCD
@@ -45,7 +26,7 @@ std::vector <std::string> buenos_aires::findCandidateSolutions(const Dictionary 
     const auto partialCities = cityRepeated | views::chunk(N - 1) | views::take(N); // ABC | DAB | CDA | BCD
 
     auto getAllPermutations = [](const std::string &str) {
-        std::vector <std::string> permutations{str};
+        std::vector<std::string> permutations{str};
         auto s = str;
         while (std::prev_permutation(s.begin(), s.end())) {
             permutations.push_back(s);
@@ -75,7 +56,7 @@ std::vector <std::string> buenos_aires::findCandidateSolutions(const Dictionary 
 
     const auto searchSize = vec.size() * (N - 2);
     std::cout << "There are " << searchSize << "combinations to look thru...\n";
-    std::vector <std::string> candidates;
+    std::vector<std::string> candidates;
 
     for (const auto &str : vec) {
         if (!hasNoPairsOfWords(str)) {
@@ -89,7 +70,7 @@ std::vector <std::string> buenos_aires::findCandidateSolutions(const Dictionary 
 
 
 int main() {
-    buenos_aires::Dictionary dict{"/home/zach/solve-the-puzzler/datasets/wordlist.10000.txt", 2};
+    util::Dictionary dict{"/home/zach/solve-the-puzzler/datasets/wordlist.10000.txt", 2};
 
     /// test dictionary
     std::cout << "Is apple a word? A: " << std::boolalpha << dict.isAWord("apple") << std::endl;

@@ -1,0 +1,15 @@
+https://www.npr.org/2020/12/27/950036966/sunday-puzzle-word-sandwiches
+
+============================PROBLEM STATEMENT===================================
+Think of a familiar two-word phrase (5, 2).
+Replace the last letter with the next letter of the alphabet.
+The result will be a palindrome (the seven letters will read backward and forward the same).
+What phrase is it?
+
+============================SCRATCH NOTES===================================
+1. Search for all 7-letter Palindromes.
+2. Split into two partitions (5, 2).
+3. Replace last letter with previous letter of the alphabet.
+3. Check if both halves are words.
+4. (Manually) check if it's a phrase.
+
