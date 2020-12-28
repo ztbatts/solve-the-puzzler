@@ -1,2 +1,2 @@
-#add_executable(SevenLetterPalindrome SevenLetterPalindrome.cpp)
-#target_link_libraries(SevenLetterPalindrome CONAN_PKG::range-v3)
+add_executable(SevenLetterPalindrome SevenLetterPalindrome.cpp)
+target_link_libraries(SevenLetterPalindrome Util CONAN_PKG::range-v3)

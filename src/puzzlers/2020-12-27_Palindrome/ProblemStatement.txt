@@ -7,9 +7,28 @@ The result will be a palindrome (the seven letters will read backward and forwar
 What phrase is it?
 
 ============================SCRATCH NOTES===================================
+
+The problem statement does NOT specify that the palindrome needs to be a single word.
+
+This won't work...b/c it assumes single word palindromes
 1. Search for all 7-letter Palindromes.
-2. Split into two partitions (5, 2).
-3. Replace last letter with previous letter of the alphabet.
+2. Split into two partitions (5, 2). Replace last letter with previous letter of the alphabet.
 3. Check if both halves are words.
 4. (Manually) check if it's a phrase.
 
+
+
+Try the other direction
+1. Generate all (5,2) word combinations
+2. Try replacing last letter.
+3. Check if it's a palindrome
+    Need to search different partition variations
+
+
+Search for all 7-letter palindromes
+1. For i in 1:N , where N = # of words in the palindrome (assumed e.g. max 3)
+2. For each word in the dictionary (j = i)
+3. while j > 0,
+    add the (word, drow)  to the phrase "in the middle"
+    if j == 1, only add the word,
+    j--,
