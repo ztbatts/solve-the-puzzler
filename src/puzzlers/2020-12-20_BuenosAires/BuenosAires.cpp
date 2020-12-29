@@ -17,13 +17,14 @@
 
 using namespace ranges;
 
-
 std::vector<std::string> buenos_aires::findCandidateSolutions(const util::Dictionary &dict, const std::string &city) {
-
+    constexpr int minWordSize = 3;
     const int N = city.size();
     // city = ABCD
     const auto cityRepeated = city | views::cycle; // infinitely repeated ... ABCDABCDABCDABCD...
-    const auto partialCities = cityRepeated | views::chunk(N - 1) | views::take(N); // ABC | DAB | CDA | BCD
+    const auto partialCities =                     // ABC | DAB | CDA | BCD
+            cityRepeated | views::chunk(N - 1) | views::take(N) |
+            views::transform(ranges::to<std::string>());
 
     auto getAllPermutations = [](const std::string &str) {
         std::vector<std::string> permutations{str};
@@ -39,7 +40,7 @@ std::vector<std::string> buenos_aires::findCandidateSolutions(const util::Dictio
     };
 
     auto hasNoPairsOfWords = [&dict = std::as_const(dict)](const std::string &str) {
-        for (auto iter = str.begin() + dict.minWordSize_; iter < str.end() - dict.minWordSize_ + 1; ++iter) {
+        for (auto iter = str.begin() + minWordSize; iter < str.end() - minWordSize + 1; ++iter) {
             const std::string first = {str.begin(), iter};
             const std::string second = {iter, str.end()};
             if (dict.isAWord(first) && dict.isAWord(second)) {
@@ -51,7 +52,7 @@ std::vector<std::string> buenos_aires::findCandidateSolutions(const util::Dictio
     };
 
     const auto permutedPartialCities = // vector of ranges : {ABC, ACB, BAC, BCA, CAB, CBA} | {...} | {...} | {...}
-            partialCities | views::transform(getAllPermutations) | ranges::to<std::vector>;
+            partialCities | views::transform(getAllPermutations) | ranges::to_vector;
     const auto vec = permutedPartialCities | views::join | ranges::to<std::vector>; // flattened to a single vector
 
     const auto searchSize = vec.size() * (N - 2);
@@ -80,7 +81,7 @@ int main() {
 
     std::cout << "BuenosAires Puzzle candidates: \n";
 
-    //    const auto possibleAnswers = buenos_aires::createOrderings(dict, "asactr"); // test
+    //    const auto possibleAnswers = buenos_aires::createOrderings(words, "asactr"); // test
     const auto possibleAnswers = buenos_aires::findCandidateSolutions(dict, "buenosaires");
 
     for (const auto &s : possibleAnswers) {

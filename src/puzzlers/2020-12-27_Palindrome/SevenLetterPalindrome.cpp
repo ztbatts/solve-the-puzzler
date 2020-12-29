@@ -1,45 +1,56 @@
-#include "SevenLetterPalindrome.hpp"
+
 #include "util.hpp"
 
 #include <iostream>
-#include <fstream>
-#include <iterator>
-#include <list>
 #include <string>
+#include <utility>
+#include <algorithm>
 
 #include <range/v3/view/remove_if.hpp>
-#include <range/v3/view/concat.hpp>
+#include <range/v3/view/common.hpp>
+#include <range/v3/range/conversion.hpp>
 
-//std::vector<std::list<std::string>> palindromePhrase(const std::vector<util::Dictionary> &orderedDict) {
-//    const int maxWordLength = orderedDict.size();
-//    std::vector<std::list<std::string>> phrases;
-//    std::list<std::string> phrase;
-//
-//    int i = maxWordLength;
-//    while (i-- > 0) {
-//        auto middleIdx = phrase.size() / 2; // truncates / rounds down
-//        phrase.insert(middleIdx,)
-//    }
-//}
 
+std::vector<std::pair<std::string, std::string>> findAllPalindromePhrases(const std::string &pathToDict) {
+    auto fullDict = util::createDict(pathToDict);
+    auto firstWords = fullDict |
+                      ranges::views::remove_if([](const std::string &s) { return s.size() != 5; }) |
+                      ranges::views::remove_if([](const auto &s) { return s.at(2) != s.at(4); });
+
+    auto twoWordDict = fullDict |
+                       ranges::views::remove_if([](const std::string &s) { return s.size() != 2; });
+
+    std::vector<std::pair<std::string, std::string>> res;
+    auto nextChar = [](const auto letter) {
+        return letter == 'z' ? 'a' : letter + 1;
+    };
+    for (const auto &first : firstWords) {
+        auto slimDict = twoWordDict |
+                        ranges::views::remove_if([&first](const auto &s) { return s.at(0) != first.at(1); }) |
+                        ranges::views::remove_if(
+                                [first, &nextChar](const auto &s) {
+                                    return nextChar(s.at(1)) != first.at(0);
+                                });
+        auto secondWords = slimDict |
+                           ranges::views::remove_if([&first, &nextChar](auto s) {
+                               s.at(1) = nextChar(s.at(1));
+                               return !util::isPalindromePhrase(std::vector<std::string>{first, s});
+                           }) | ranges::to_vector;
+        for (const auto &second : secondWords) {
+            res.emplace_back(first, second);
+        }
+    }
+
+    return res;
+};
 
 int main() {
-    std::size_t wordSize = 7;
-//    auto dict = palindrome7::createPalindromeDict("/home/zach/solve-the-puzzler/datasets/wordlist.10000.txt", wordSize);
-    auto dict = util::createPalindromeDict("/home/zach/solve-the-puzzler/datasets/words_alpha.txt", wordSize);
+//    const std::string pathToDict = "/home/zach/solve-the-puzzler/datasets/words_alpha.txt";
+    const std::string pathToDict = "/home/zach/solve-the-puzzler/datasets/wordlist.10000.txt";
 
-    /// test dictionary
-    std::cout << "Is apple a word? A: " << std::boolalpha << dict.isAWord("apple") << std::endl;
-    std::cout << "Is a a word? A: " << std::boolalpha << dict.isAWord("a") << std::endl; // not if minWordSize > 1
-    std::cout << "Is rotator a word? A: " << std::boolalpha << dict.isAWord("rotator") << std::endl;
+    auto pairs = findAllPalindromePhrases(pathToDict);
 
-    /// test isPalindromeString
-    std::list<std::string> phrase{"madam", "im", "adam"};
-//    auto phrase = ranges::views::concat("madam","im","adam");
-    std::cout << "Is madam,im,adam a palindrome: " << std::boolalpha << util::isPalindromePhrase(phrase) << std::endl;
-    std::string emptyStr;
-    std::cout << "Is empty str a palindrome: " << std::boolalpha << util::isPalindromeString(emptyStr) << std::endl;
-
+    for (const auto &pair : pairs) {
+        std::cout << pair.first << ", " << pair.second << std::endl;
+    }
 }
-
-
