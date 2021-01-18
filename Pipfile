@@ -1,14 +1,15 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
-# (none)
+name = "pypi"
 
 [packages]
-pip = "*"
-conan = "==1.32.1"
+argparse = "*"
+numpy = "*"
+scipy = "*"
+matplotlib = "*"
+
+[dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
