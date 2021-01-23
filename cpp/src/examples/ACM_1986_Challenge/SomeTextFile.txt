@@ -1,0 +1,15 @@
+You can transform the range into pairs; the first item in the pair is the number of items in a group, and the second is the word.
+This will give you a range containing all the words in the original text along with the number of occurrences for each.
+Now that you have a sorted list, you can easily group the same words by using view::group_by.
+
+It’ll create a range of word groups (the groups are, incidentally, also ranges).
+Each group will contain the same word multiple times—as many times as it appeared in the original text.
+
+For the sake of completeness, you also need to implement string_to_lower and string_only_alnum functions.
+The former is a transformation that converts each character in a string to lowercase, and the latter is a filter that skips characters that aren’t alphanumeric.
+
+A std::string is a collection of characters, so you can manipulate it like any other range:
+
+In this case, because the tokens you want are of std::string type, the range will read word by word from the standard input stream.
+This isn’t enough, because you want all the words to be lowercase and you don’t want punctuation characters included.
+You need to transform each word to lowercase and remove any nonalphanumeric characters (see figure 7.6).
