@@ -16,3 +16,8 @@ auto greater_curried(double first)
 greater(2, 3);
 greater_curried(2);
 greater_curried(2)(3);
+
+
+int main() {
+
+}
