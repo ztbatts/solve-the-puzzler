@@ -1,3 +1,5 @@
 add_executable(SolveChallengeWithRanges SolveChallengeWithRanges.cpp)
 target_link_libraries(SolveChallengeWithRanges Util CONAN_PKG::range-v3)
 
+add_executable(SolveChallengeWithStd SolveChallengeWithStd.cpp)
+target_link_libraries(SolveChallengeWithStd Util CONAN_PKG::range-v3)

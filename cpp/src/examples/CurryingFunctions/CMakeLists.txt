@@ -1,0 +1,5 @@
+add_executable(CurryingSimpleExample CurryingSimpleExample.cpp)
+target_link_libraries(CurryingSimpleExample Util CONAN_PKG::range-v3)
+
+add_executable(CurryingComplexExample CurryingComplexExample.cpp)
+target_link_libraries(CurryingComplexExample Util CONAN_PKG::range-v3)
