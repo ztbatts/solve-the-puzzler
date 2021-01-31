@@ -8,6 +8,8 @@ argparse = "*"
 numpy = "*"
 scipy = "*"
 matplotlib = "*"
+epitran = "1.9"
+tqdm = "*"
 
 [dev-packages]
 
