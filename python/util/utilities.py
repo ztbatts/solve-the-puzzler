@@ -1,3 +1,4 @@
+import json
 import pickle
 from pathlib import Path
 
@@ -24,3 +25,15 @@ def createPhoneticDict(pathToFile, epi, pathToSaveDict):
         phoneticDict[pronunciation] = word
     pickle.dump(phoneticDict, open(pathToSaveDict, "wb"))
     return phoneticDict
+
+
+def createMapOfSortedLettersInDictionary(pathToTxtFile):
+    words = extractFirstWordFromList(pathToTxtFile)
+    sortedWords = {"".join(sorted(word)): word for word in words}
+    return sortedWords
+
+
+def loadJson(pathToJsonFile):
+    with open(pathToJsonFile) as f:
+        data = json.load(f)
+    return data

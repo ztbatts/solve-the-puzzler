@@ -1,0 +1,32 @@
+https://www.npr.org/2021/01/31/962412357/sunday-puzzle-game-of-words
+
+Starting in Montana, you can drive into South Dakota and then into Iowa.
+Those three states have the postal abbreviations MT, SD, and IA —
+whose letters can be rearranged to spell AMIDST.
+
+The challenge is to do this with four connected states to make an eight-letter word.
+That is, start in a certain state, drive to another, then another, and then another.
+Take the postal abbreviations of the four states you visit, mix the letters up, and
+use them to spell a common eight-letter word.
+
+Derrick and I know of only one answer.
+
+Can you do this?
+
+##### NOTES #####
+Can do a couple brute-force approaches.
+
+"Forward Approach"
+1. Go thru 4-state combinations (50 choose 4 = 5527200)
+2. Go thru each 8-letter permutation ( *= (8 factorial = 40320)
+3. Check if the word exists in the dictionary ( *= (dict size ~ 10000))
+
+"Backward approach" (sounds quicker)
+1. Sort each word in the dictionary ( N * k * log(k) ... not too bad ... one time cost)
+   Create a map/dict from {sorted : original}
+2. Go thru each 4-state combo
+3. Sort the combo
+4. Find the combo in the dictionary
+
+
+* it's a "common" word, so can probably use a slim dictionary of 10,000 words.
