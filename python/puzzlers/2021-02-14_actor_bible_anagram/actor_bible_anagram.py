@@ -13,6 +13,7 @@ from tqdm import tqdm
 def isQualifiedActor(stringList):
     """ Determine if cast member is relevant to our search
     Example stringList:
+    (nconst, primaryName, birthYear, deathYear, primaryProfession, knownForTitles)
     ["nm0000004", "John Belushi", "1949", "1982", "actor,soundtrack,writer", "tt0078723,tt0072562,tt0077975,tt0080455"]
     """
     notKnownForAnything = stringList[-1] == '\\N'
@@ -29,6 +30,7 @@ def isQualifiedActor(stringList):
 def parseLine(stringList):
     """ Extracts first/last name. Makes lower case, removes accents and nonalpha characters (e.g. dashes).
     Example stringList:
+    (nconst, primaryName, birthYear, deathYear, primaryProfession, knownForTitles)
     ["nm0000004", "John Belushi", "1949", "1982", "actor,soundtrack,writer", "tt0078723,tt0072562,tt0077975,tt0080455"]
     """
     regex = re.compile('[^a-zA-Z]')
@@ -59,11 +61,13 @@ def parseIMDB(pathToActors, pickleFile=None):
 
 
 if __name__ == "__main__":
+    # List of bible books, and same list with each element name sorted (e.g. "mark" -> "arkm")
     pathToBibleBooks = os.path.join(get_repo_root_path(), "datasets/bible_books.txt")
     bibleBooks = set(extractLastWordFromList(pathToBibleBooks, " "))
     bibleBooksSortedLetters = {"".join(sorted(book)) for book in bibleBooks}
 
-    pathToActors = os.path.join(get_repo_root_path(), "datasets/name.basics.tsv")
+    # List of (firstName, lastName) relevant actors
+    pathToActors = os.path.join(get_repo_root_path(), "datasets/imdbActors.tsv")
     pickFileName = os.path.join(get_repo_root_path(), "datasets/imdbActors.pickle")
     actors = parseIMDB(pathToActors, pickFileName)
 
