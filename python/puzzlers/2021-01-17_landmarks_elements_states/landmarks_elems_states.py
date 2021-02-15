@@ -1,15 +1,10 @@
 #!/usr/bin/env pipenv-shebang
-
+import os
 import itertools
 from python.util.utilities import *
 
 
-
-def findSolutions():
-    landmarks = ['hooverdam', 'koreanwar']  # any other ideas?
-    atomicElements = extractFirstWordFromList('/home/zach/solve-the-puzzler/datasets/atomic_elements.txt')
-    states = extractFirstWordFromList('/home/zach/solve-the-puzzler/datasets/US_States.txt')
-
+def findSolutions(atomicElements, states, landmarks):
     # Brute force approach
     solutions = []
     for landmark in landmarks:
@@ -26,8 +21,18 @@ def findSolutions():
 
 
 if __name__ == "__main__":
-    sols = findSolutions()
+    landmarks = ['hooverdam']  # any other ideas? 'koreanwar'?
+
+    pathToElements = os.path.join(get_repo_root_path(), "datasets/atomic_elements.txt")
+    atomicElements = extractFirstWordFromList(pathToElements)
+
+    pathToStates = os.path.join(get_repo_root_path(), "datasets/US_States.txt")
+    states = extractFirstWordFromList(pathToStates)
+
+    sols = findSolutions(atomicElements, states, landmarks)
+
     print("Job's done!")
+
     for sol in sols:
         landmark, elem, firstState, secondState = sol
         print('Landmark: ' + landmark + ', Element: ' + elem + ', states: ' + firstState + ', ' + secondState)

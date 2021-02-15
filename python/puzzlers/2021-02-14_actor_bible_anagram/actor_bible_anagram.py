@@ -1,3 +1,4 @@
+#!/usr/bin/env pipenv-shebang
 from python.util.utilities import extractLastWordFromList, get_repo_root_path
 
 import os
