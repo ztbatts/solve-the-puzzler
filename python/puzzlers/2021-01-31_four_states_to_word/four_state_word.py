@@ -1,10 +1,15 @@
+#!/usr/bin/env pipenv-shebang
+import os
 import itertools as iter
 
 from python.util.utilities import *
 
 
-def loadStateAdjacencyGraph():
-    pathToStateGraph = '/home/zach/solve-the-puzzler/datasets/US_State_Neighbors.txt'
+def loadStateAdjacencyGraph(pathToStateGraph):
+    """ returns a dict with (all lower-case):
+        Key = Single US state
+        Value = List of states that are physically connected to the key state
+    """
     graph = {}
     file = open(pathToStateGraph, 'r', encoding='utf-8')
     for line in file:
@@ -13,8 +18,8 @@ def loadStateAdjacencyGraph():
     return graph
 
 
-# Checks if list of states is connected in the order given
 def isConnected(stateList, stateGraph):
+    """ Checks if list of states is connected in the order given """
     state_pairs = zip(stateList[:-1], stateList[1:])
     for first, second in state_pairs:
         if first not in stateGraph or second not in stateGraph[first]:
@@ -22,24 +27,16 @@ def isConnected(stateList, stateGraph):
     return True
 
 
-# Checks if any ordering permutation of stateList is connected
 def isAnyConnected(stateList, stateGraph):
+    """ Checks if any ordering permutation of stateList is connected """
     for states in iter.permutations(stateList, len(stateList)):
         if isConnected(states, stateGraph):
             return True
     return False
 
 
-def findAllEightLetterCombos():
-    pathToDict = '/home/zach/solve-the-puzzler/datasets/dictionaries/wordlist.10000.txt'
-    # pathToDict = '/home/zach/solve-the-puzzler/datasets/dictionaries/words_alpha.txt'
-    pathToStates = '/home/zach/solve-the-puzzler/datasets/US_States_w_abbrev.json'
-
-    sorted_letter_dict = createMapOfSortedLettersInDictionary(pathToDict)
-    states_w_abbrev = loadJson(pathToStates)
-
+def findAllEightLetterCombos(sorted_letter_dict, states_w_abbrev):
     solutions = {}
-
     for combo in iter.combinations(states_w_abbrev.keys(), 4):
         combo_lower = tuple(state.lower() for state in combo)
         candidate = "".join(sorted("".join(combo_lower)))
@@ -51,11 +48,24 @@ def findAllEightLetterCombos():
 
 
 if __name__ == "__main__":
-    state_graph = loadStateAdjacencyGraph()
-    unconnected_solutions = findAllEightLetterCombos()
+    # pathToDict = os.path.join(get_repo_root_path(), "datasets/dictionaries/words_alpha.txt")
+    pathToDict = os.path.join(get_repo_root_path(), "datasets/dictionaries/wordlist.10000.txt")
+    # pathToDict = os.path.join(get_repo_root_path(), "datasets/dictionaries/engmix.txt")
+    sorted_letter_dict = createMapOfSortedLettersInDictionary(pathToDict)
+
+    pathToStates = os.path.join(get_repo_root_path(), "datasets/US_States_w_abbrev.json")
+    states_w_abbrev = loadJson(pathToStates)
+
+    unconnected_solutions = findAllEightLetterCombos(sorted_letter_dict, states_w_abbrev)
+
+    pathToStateGraph = os.path.join(get_repo_root_path(), "datasets/US_State_Neighbors.txt")
+    state_graph = loadStateAdjacencyGraph(pathToStateGraph)
 
     sols = {word: combo
             for (word, combo) in unconnected_solutions.items()
             if isAnyConnected(combo, state_graph)}
+
+    for word, combo in sols.items():
+        print(word, combo)
 
     print("Job's done!")
