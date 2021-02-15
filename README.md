@@ -3,6 +3,7 @@ Tools to solve NPR Weekend Edition puzzler
 E.g. https://www.npr.org/2020/12/20/948348016/sunday-puzzle-christmas-capitals 
 
 ## Instructions (Command-Line)
+1. Install git lfs (```git lfs install```). This makes version control for certain datasets easier.
 1. Install pipenv (```sudo apt install pipenv```). 
 2. Spin up a virtual environment (```pipenv shell; pipenv install```)
 3. Create and move to build folder (```mkdir build/; cd build/```)

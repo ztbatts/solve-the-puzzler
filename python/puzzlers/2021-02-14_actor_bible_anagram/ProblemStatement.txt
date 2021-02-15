@@ -1,0 +1,13 @@
+https://www.npr.org/2021/02/14/967637320/sunday-puzzle-of-the-anagrams
+
+Name a famous actor whose
+first name is a book of the Bible
+and whose last name is an anagram of another book of the Bible.
+
+Who is it?
+
+
+########### Scratch Notes #########
+~120k actors from IMBD
+56 books in the bible (up to 13 words)
+
